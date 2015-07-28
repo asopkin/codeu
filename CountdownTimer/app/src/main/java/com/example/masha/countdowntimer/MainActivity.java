@@ -6,9 +6,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
+import java.util.Random;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -17,11 +21,23 @@ public class MainActivity extends ActionBarActivity {
     private CountDownTimerWithPause mCountDownTimer;
     private Button startButton;
     private Button pauseButton;
+    private CommentsDataSource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        datasource = new CommentsDataSource(this);
+        datasource.open();
+
+        List<Comment> values = datasource.getAllComments();
+        /**
+        // use the SimpleCursorAdapter to show the
+        // elements in a ListView
+        ArrayAdapter<Comment> adapter = new ArrayAdapter<Comment>(this,
+                android.R.layout.simple_list_item_1, values);
+        setListAdapter(adapter);**/
         //3600000 is an hour
         //60000 <- is a minute, for testing purposes
         //10000 <- ~8 seconds
@@ -44,7 +60,18 @@ public class MainActivity extends ActionBarActivity {
 
             public void onFinish() {
                 int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getApplicationContext(), R.string.exercise, duration);
+                @SuppressWarnings("unchecked")
+                //ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) getListAdapter();
+                Comment comment = null;
+                String[] comments = new String[]{"Dumbbells Exercise: lift 3", "Intervals: run for 20 minutes", "Ab crunches" };
+                int nextInt = new Random().nextInt(3);
+                comment = datasource.createComment(comments[nextInt]);
+                //adapter.add(comment);
+
+                //adapter.notifyDataSetChanged();
+                //Toast toast = Toast.makeText(getApplicationContext(), R.string.exercise, duration);
+                String tester = comment.toString();
+                Toast toast = Toast.makeText(getApplicationContext(), tester, duration);
                 sendMessage();
                 toast.show();
 

@@ -13,7 +13,7 @@
         android:layout_marginBottom="37dp"
         android:textSize="40sp"
         android:textColor="@color/light_blue"
-        android:text="@string/exercise" />
+        android:text="@string/exercise"/>
 
     <Button
         android:id="@+id/skip_button"
