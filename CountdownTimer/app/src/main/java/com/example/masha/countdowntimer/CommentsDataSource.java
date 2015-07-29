@@ -46,23 +46,6 @@ public class CommentsDataSource {
         cursor.close();
         return newComment;
     }
-/**
-    public Comment createComment2(){
-        ContentValues values = new ContentValues();
-        Spinner mySpinner=(Spinner) findViewById(R.id.spn_comment);
-        String comment = mySpinner.getSelectedItem().toString();
-        values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
-        long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,
-                values);
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-                allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-        Comment newComment = cursorToComment(cursor);
-        cursor.close();
-        return newComment;
-    }**/
-
     public void deleteComment(Comment comment) {
         long id = comment.getId();
         System.out.println("Comment deleted with id: " + id);

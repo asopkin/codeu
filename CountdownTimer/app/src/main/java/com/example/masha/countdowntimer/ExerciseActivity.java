@@ -19,6 +19,7 @@ public class ExerciseActivity extends ActionBarActivity {
 
     private Button doneButton;
     private Button skipButton;
+    private Button addButton;
     private CommentsDataSource datasource;
 
     @Override
@@ -29,7 +30,18 @@ public class ExerciseActivity extends ActionBarActivity {
         datasource.open();
 
         List<Comment> values = datasource.getAllComments();
-        String[] comments = new String[]{"Dumbbells Exercise: lift 3", "Intervals: run for 20 minutes", "Ab crunches" };
+        final String[] comments = new String[]{"Dumbbells Exercise: lift 3", "Intervals: run for 20 minutes", "Ab crunches" };
+        /**
+        addButton = (Button)findViewById(R.id.btnadd);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //EditText editText = (EditText)findViewById(R.id.exerciseName);
+                final String newcomment = "wat";//editText.toString();
+                comments[3] = newcomment;
+            }
+        });**/
+
+
         int nextInt = new Random().nextInt(3);
         // globally
         TextView myAwesomeTextView = (TextView)findViewById(R.id.timer_view);
@@ -43,6 +55,8 @@ public class ExerciseActivity extends ActionBarActivity {
         //Toast toast = Toast.makeText(getApplicationContext(), R.string.exercise, duration);
         String tester = comment.toString();
         myAwesomeTextView.setText(tester);
+
+
 
         doneButton = (Button) findViewById(R.id.done_button);
 
@@ -86,5 +100,6 @@ public class ExerciseActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }

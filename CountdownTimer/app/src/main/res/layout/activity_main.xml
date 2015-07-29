@@ -24,6 +24,15 @@
         android:layout_marginLeft="38dp"
         android:textColor="@color/blue"
         android:text="@string/startButtonLabel" />
+    <Button
+        android:id="@+id/add_exercise"
+        android:layout_width="125dp"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBaseline="@+id/skip_button"
+        android:textColor="@color/blue"
+        android:text="Add Exercise" />
 
     <Button
         android:id="@+id/pauseButton"
