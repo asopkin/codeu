@@ -20,6 +20,18 @@
             android:name=".ExerciseActivity"
             android:label="@string/title_activity_exercise" >
         </activity>
+
+        <provider
+            android:name=".MyProvider"
+            android:authorities="com.example.masha.countdowntimer.MyProvider"
+            android:exported="true"
+            android:multiprocess="true" >
+        </provider>
+
+        <activity
+            android:name=".AddExerciseActivity"
+            android:label="@string/title_activity_add_exercise" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,8 @@
 package com.example.masha.countdowntimer;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -8,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ public class MainActivity extends ActionBarActivity {
     private CountDownTimerWithPause mCountDownTimer;
     private Button startButton;
     private Button pauseButton;
+    private Button addButton;
     private CommentsDataSource datasource;
 
     @Override
@@ -28,11 +32,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        datasource = new CommentsDataSource(this);
-        datasource.open();
-
-        List<Comment> values = datasource.getAllComments();
+        /**datasource = new CommentsDataSource(this);
+        datasource.open();**/
         /**
+        List<Comment> values = datasource.getAllComments();
+
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
         ArrayAdapter<Comment> adapter = new ArrayAdapter<Comment>(this,
@@ -60,17 +64,19 @@ public class MainActivity extends ActionBarActivity {
 
             public void onFinish() {
                 int duration = Toast.LENGTH_SHORT;
-                @SuppressWarnings("unchecked")
+
+
                 //ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) getListAdapter();
-                Comment comment = null;
+                /**Comment comment = null;
                 String[] comments = new String[]{"Dumbbells Exercise: lift 3", "Intervals: run for 20 minutes", "Ab crunches" };
                 int nextInt = new Random().nextInt(3);
-                comment = datasource.createComment(comments[nextInt]);
+                comment = datasource.createComment(comments[nextInt]);**/
                 //adapter.add(comment);
 
                 //adapter.notifyDataSetChanged();
                 //Toast toast = Toast.makeText(getApplicationContext(), R.string.exercise, duration);
-                String tester = comment.toString();
+
+                String tester = "tester";
                 Toast toast = Toast.makeText(getApplicationContext(), tester, duration);
                 sendMessage();
                 toast.show();
@@ -100,7 +106,19 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        addButton = (Button) findViewById(R.id.addButton);
+        addButton.setOnClickListener(myhandler1);
+
     }
+
+    View.OnClickListener myhandler1 = new View.OnClickListener() {
+        public void onClick(View v) {
+            // it was the 1st button
+            Intent intentMain = new Intent(MainActivity.this ,
+                    AddExerciseActivity.class);
+            MainActivity.this.startActivity(intentMain);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,5 +152,15 @@ public class MainActivity extends ActionBarActivity {
       super.onResume();
         mCountDownTimer.create();
     }
+
+    public void onClickAddName(View view) {
+        ContentValues values = new ContentValues();
+        values.put(MyProvider.name, ((EditText) findViewById(R.id.txtName))
+                .getText().toString());
+        Uri uri = getContentResolver().insert(MyProvider.CONTENT_URI, values);
+        Toast.makeText(getBaseContext(), "New record inserted", Toast.LENGTH_LONG)
+                .show();
+    }
+
 
 }

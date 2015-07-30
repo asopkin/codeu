@@ -1,6 +1,9 @@
 package com.example.masha.countdowntimer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.List;
 import java.util.Random;
+import com.example.masha.countdowntimer.MyProvider;
 
 
 public class ExerciseActivity extends ActionBarActivity {
@@ -31,6 +35,10 @@ public class ExerciseActivity extends ActionBarActivity {
 
         List<Comment> values = datasource.getAllComments();
         final String[] comments = new String[]{"Dumbbells Exercise: lift 3", "Intervals: run for 20 minutes", "Ab crunches" };
+
+
+
+
         /**
         addButton = (Button)findViewById(R.id.btnadd);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -76,8 +84,19 @@ public class ExerciseActivity extends ActionBarActivity {
                 finish();
             }
         });
+
+        addButton = (Button) findViewById(R.id.addButton);
+        addButton.setOnClickListener(myhandler1);
     }
 
+    View.OnClickListener myhandler1 = new View.OnClickListener() {
+        public void onClick(View v) {
+            // it was the 1st button
+            Intent intentMain = new Intent(ExerciseActivity.this ,
+                    AddExerciseActivity.class);
+            ExerciseActivity.this.startActivity(intentMain);
+        }
+    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -100,6 +119,10 @@ public class ExerciseActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 
 
 }
