@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity {
     private Button startButton;
     private Button pauseButton;
     private Button addButton;
+    private Button showButton;
     private CommentsDataSource datasource;
 
     @Override
@@ -109,13 +110,27 @@ public class MainActivity extends ActionBarActivity {
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(myhandler1);
 
+        showButton = (Button)findViewById(R.id.showButton);
+        showButton.setOnClickListener(myhandler2);
+
+
     }
+
 
     View.OnClickListener myhandler1 = new View.OnClickListener() {
         public void onClick(View v) {
             // it was the 1st button
             Intent intentMain = new Intent(MainActivity.this ,
                     AddExerciseActivity.class);
+            MainActivity.this.startActivity(intentMain);
+        }
+    };
+
+    View.OnClickListener myhandler2 = new View.OnClickListener() {
+        public void onClick(View v) {
+            // it was the 1st button
+            Intent intentMain = new Intent(MainActivity.this ,
+                    DisplayExercises.class);
             MainActivity.this.startActivity(intentMain);
         }
     };

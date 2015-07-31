@@ -51,7 +51,7 @@ public class AddExerciseActivity extends ActionBarActivity {
         values.put(MyProvider.name, ((EditText) findViewById(R.id.txtName))
                 .getText().toString());
         Uri uri = getContentResolver().insert(MyProvider.CONTENT_URI, values);
-        Toast.makeText(getBaseContext(), "New record inserted", Toast.LENGTH_LONG)
+        Toast.makeText(getBaseContext(), "New exercise inserted", Toast.LENGTH_LONG)
                 .show();
     }
 }

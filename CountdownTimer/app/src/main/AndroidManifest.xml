@@ -23,7 +23,7 @@
 
         <provider
             android:name=".MyProvider"
-            android:authorities="com.example.masha.countdowntimer.MyProvider"
+            android:authorities="com.example.contentproviderexample.MyProvider"
             android:exported="true"
             android:multiprocess="true" >
         </provider>
@@ -31,6 +31,10 @@
         <activity
             android:name=".AddExerciseActivity"
             android:label="@string/title_activity_add_exercise" >
+        </activity>
+        <activity
+            android:name=".DisplayExercises"
+            android:label="Exercise">
         </activity>
     </application>
 

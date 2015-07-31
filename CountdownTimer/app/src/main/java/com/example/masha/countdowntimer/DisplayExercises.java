@@ -1,8 +1,9 @@
 package com.example.masha.countdowntimer;
 
 /**
- * Created by asopkin on 7/29/2015.
+ * Created by asopkin on 7/30/2015.
  */
+
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,21 +15,21 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
-public class ExerciseActivity2 extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DisplayExercises extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     TextView resultView=null;
     CursorLoader cursorLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise);
+        setContentView(R.layout.exercises);
         resultView= (TextView) findViewById(R.id.res);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
 

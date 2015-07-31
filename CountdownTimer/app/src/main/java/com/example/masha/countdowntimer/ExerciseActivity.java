@@ -89,6 +89,7 @@ public class ExerciseActivity extends ActionBarActivity {
         addButton.setOnClickListener(myhandler1);
     }
 
+
     View.OnClickListener myhandler1 = new View.OnClickListener() {
         public void onClick(View v) {
             // it was the 1st button
