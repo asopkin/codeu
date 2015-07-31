@@ -1,9 +1,14 @@
 package com.example.masha.countdowntimer;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,24 +69,33 @@ public class MainActivity extends ActionBarActivity {
             }
 
             public void onFinish() {
-                int duration = Toast.LENGTH_SHORT;
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(this)
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setContentTitle("My notification")
+                                .setContentText("Hello World!");
+                // Creates an explicit intent for an Activity in your app
+                Intent resultIntent = new Intent(this, MainActivity.class);
 
-
-                //ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) getListAdapter();
-                /**Comment comment = null;
-                String[] comments = new String[]{"Dumbbells Exercise: lift 3", "Intervals: run for 20 minutes", "Ab crunches" };
-                int nextInt = new Random().nextInt(3);
-                comment = datasource.createComment(comments[nextInt]);**/
-                //adapter.add(comment);
-
-                //adapter.notifyDataSetChanged();
-                //Toast toast = Toast.makeText(getApplicationContext(), R.string.exercise, duration);
-
-                String tester = "tester";
-                Toast toast = Toast.makeText(getApplicationContext(), tester, duration);
-                sendMessage();
-                toast.show();
-
+                // The stack builder object will contain an artificial back stack for the
+                // started Activity.
+                // This ensures that navigating backward from the Activity leads out of
+                // your application to the Home screen.
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                // Adds the back stack for the Intent (but not the Intent itself)
+                stackBuilder.addParentStack(MainActivity.class);
+                // Adds the Intent that starts the Activity to the top of the stack
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(
+                                0,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                // mId allows you to update the notification later on.
+                mNotificationManager.notify(234234, mBuilder.build());
             }
 
 
