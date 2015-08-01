@@ -37,16 +37,20 @@ public class DisplayExercises extends FragmentActivity implements LoaderManager.
     ListView listView;
     TextView txt_hidden;
     TextView txt_button;
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exercises);
-        listView = (ListView)findViewById(R.id.list);
+        //expListView = (ExpandableListView)findViewById(R.id.list);
         txt_button = (TextView)findViewById(R.id.text1);
         txt_hidden = (TextView)findViewById(R.id.text2);
         //txt_hidden.setVisibility(View.GONE);
-       // resultView= (ExpandableListView) findViewById(R.id.res);
+        resultView= (ExpandableListView) findViewById(R.id.list);
     }
 
     @Override
@@ -70,6 +74,58 @@ public class DisplayExercises extends FragmentActivity implements LoaderManager.
     public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
         cursor.moveToFirst();
 
+        // get the listview
+        expListView = (ExpandableListView) findViewById(R.id.list);
+
+        ArrayList<String> listItems = new ArrayList<String>();
+        ArrayList<String> listItems2 = new ArrayList<String>();
+        //  listItems = new ArrayList<ListItem>();
+
+        do{
+            String id=cursor.getString(cursor.getColumnIndex("id"));
+            String name=cursor.getString(cursor.getColumnIndex("name"));
+            // String name_str = id +" : "+ name;
+            listItems2.add(id);
+            listItems.add(name);
+            cursor.moveToNext();
+        }while(!cursor.isAfterLast());
+
+        // preparing list data
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+
+        // Adding child data
+        for(int i = 0; i<listItems.size(); i++){
+            String temp = "Exercise: " + listItems2.get(i);
+            listDataHeader.add(temp);
+        }
+
+        for(int j=0; j<listItems.size(); j++){
+            List<String> temp = new ArrayList<String>();
+            temp.add(listItems.get(j));
+            listDataChild.put(listDataHeader.get(j), temp);
+        }
+        /**
+        // Adding child data
+        List<String> ex1 = new ArrayList<String>();
+        ex1.add("push-ups");
+
+        List<String> ex2 = new ArrayList<String>();
+        ex2.add("gimme");
+
+        List<String> ex3 = new ArrayList<String>();
+        ex3.add("workout");
+
+        listDataChild.put(listDataHeader.get(0), ex1); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), ex2);
+        listDataChild.put(listDataHeader.get(2), ex3);
+        **/
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
+        /**
         ArrayList<String> listItems = new ArrayList<String>();
         ArrayList<String> listItems2 = new ArrayList<String>();
        //  listItems = new ArrayList<ListItem>();
@@ -86,9 +142,10 @@ public class DisplayExercises extends FragmentActivity implements LoaderManager.
         }while(!cursor.isAfterLast());
 
         CustomListAdapter adapter=new CustomListAdapter(this, listItems2, listItems);
-        mylist.setAdapter(adapter);
+        mylist.setAdapter(adapter);**/
 
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> arg0) {
