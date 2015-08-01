@@ -4,6 +4,7 @@ package com.example.masha.countdowntimer;
  * Created by asopkin on 7/30/2015.
  */
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,17 +14,39 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.Menu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
+import android.widget.AbsoluteLayout;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 
 public class DisplayExercises extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    TextView resultView=null;
+    ExpandableListView resultView=null;
     CursorLoader cursorLoader;
+    ListView listView;
+    TextView txt_hidden;
+    TextView txt_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exercises);
-        resultView= (TextView) findViewById(R.id.res);
+        listView = (ListView)findViewById(R.id.list);
+        txt_button = (TextView)findViewById(R.id.text1);
+        txt_hidden = (TextView)findViewById(R.id.text2);
+        //txt_hidden.setVisibility(View.GONE);
+       // resultView= (ExpandableListView) findViewById(R.id.res);
     }
 
     @Override
@@ -46,12 +69,25 @@ public class DisplayExercises extends FragmentActivity implements LoaderManager.
     @Override
     public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
         cursor.moveToFirst();
-        StringBuilder res=new StringBuilder();
-        while (!cursor.isAfterLast()) {
-            res.append("\n"+cursor.getString(cursor.getColumnIndex("id"))+ "-"+ cursor.getString(cursor.getColumnIndex("name")));
+
+        ArrayList<String> listItems = new ArrayList<String>();
+        ArrayList<String> listItems2 = new ArrayList<String>();
+       //  listItems = new ArrayList<ListItem>();
+        ListView mylist=(ListView) findViewById(R.id.list);
+
+
+        do{
+            String id=cursor.getString(cursor.getColumnIndex("id"));
+            String name=cursor.getString(cursor.getColumnIndex("name"));
+           // String name_str = id +" : "+ name;
+            listItems2.add(id);
+            listItems.add(name);
             cursor.moveToNext();
-        }
-        resultView.setText(res);
+        }while(!cursor.isAfterLast());
+
+        CustomListAdapter adapter=new CustomListAdapter(this, listItems2, listItems);
+        mylist.setAdapter(adapter);
+
     }
 
     @Override
@@ -60,9 +96,50 @@ public class DisplayExercises extends FragmentActivity implements LoaderManager.
 
     }
 
+
+    public void toggleContents(View v){
+        if(txt_hidden.isShown()){
+            slide_up(this, txt_hidden);
+            txt_hidden.setVisibility(View.GONE);
+        }
+        else{
+            txt_hidden.setVisibility(View.VISIBLE);
+            slide_down(this, txt_hidden);
+        }
+        //txt_hidden.setVisibility(txt_hidden.isShown()? View.GONE : View.VISIBLE);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
+
+    public static void slide_down(Context ctx, View v){
+
+        Animation a = AnimationUtils.loadAnimation(ctx, R.anim.slide_down);
+        if(a != null){
+            a.reset();
+            if(v != null){
+                v.clearAnimation();
+                v.startAnimation(a);
+            }
+        }
+    }
+
+    public static void slide_up(Context ctx, View v){
+
+        Animation a = AnimationUtils.loadAnimation(ctx, R.anim.slide_up);
+        if(a != null){
+            a.reset();
+            if(v != null){
+                v.clearAnimation();
+                v.startAnimation(a);
+            }
+        }
+    }
+
+
+
+
+
 
 }

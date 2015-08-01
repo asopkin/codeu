@@ -12,17 +12,18 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ExerciseActivity2 extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    TextView resultView=null;
+   // ListView resultView=null;
     CursorLoader cursorLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
-        resultView= (TextView) findViewById(R.id.res);
+        //resultView= (ListView) findViewById(R.id.list);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ExerciseActivity2 extends FragmentActivity implements LoaderManager
             res.append("\n"+cursor.getString(cursor.getColumnIndex("id"))+ "-"+ cursor.getString(cursor.getColumnIndex("name")));
             cursor.moveToNext();
         }
-        resultView.setText(res);
+        //resultView.setText(res);
     }
 
     @Override

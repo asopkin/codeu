@@ -69,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
             }
 
             public void onFinish() {
+                /**
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -96,6 +97,7 @@ public class MainActivity extends ActionBarActivity {
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 // mId allows you to update the notification later on.
                 mNotificationManager.notify(234234, mBuilder.build());
+                **/
             }
 
 
