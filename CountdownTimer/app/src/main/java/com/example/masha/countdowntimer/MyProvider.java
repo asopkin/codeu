@@ -27,6 +27,9 @@ public class MyProvider extends ContentProvider {
     static final String name = "name";
     static final int uriCode = 1;
     static final UriMatcher uriMatcher;
+    public static final String _ID = "_id";
+
+
     private static HashMap<String, String> values;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

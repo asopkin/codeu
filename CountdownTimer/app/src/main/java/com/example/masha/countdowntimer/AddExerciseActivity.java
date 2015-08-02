@@ -54,4 +54,11 @@ public class AddExerciseActivity extends ActionBarActivity {
         Toast.makeText(getBaseContext(), "New exercise inserted", Toast.LENGTH_LONG)
                 .show();
     }
+
+    public void onClickDeleteExercise(View view){
+        String where = "_id < 1";
+        String gimme = "0";
+        int ret_val = getContentResolver().delete(MyProvider.CONTENT_URI,MyProvider.id + " = " + gimme, null);
+        Toast.makeText(getBaseContext(), "First exercise deleted", Toast.LENGTH_LONG).show();
+    }
 }
