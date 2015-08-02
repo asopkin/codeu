@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 public class AddExerciseActivity extends ActionBarActivity {
     private Button addButton;
+    public int num_exercises = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,8 @@ public class AddExerciseActivity extends ActionBarActivity {
     public void onClickDeleteExercise(View view){
         String where = "_id < 1";
         String gimme = "0";
-        int ret_val = getContentResolver().delete(MyProvider.CONTENT_URI,MyProvider.id + " = " + gimme, null);
+        int ret_val = getContentResolver().delete(MyProvider.CONTENT_URI,MyProvider.id + " = " + num_exercises, null);
         Toast.makeText(getBaseContext(), "First exercise deleted", Toast.LENGTH_LONG).show();
+        num_exercises--;
     }
 }

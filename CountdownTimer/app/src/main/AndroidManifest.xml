@@ -36,6 +36,10 @@
             android:name=".DisplayExercises"
             android:label="Exercise">
         </activity>
+        <activity
+            android:name=".SetPreferenceActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
     </application>
 
 </manifest>

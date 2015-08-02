@@ -32,11 +32,13 @@ public class MainActivity extends ActionBarActivity {
     private Button addButton;
     private Button showButton;
     private CommentsDataSource datasource;
+    private static final int RESULT_SETTINGS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //showUserSettings();
 
         /**datasource = new CommentsDataSource(this);
         datasource.open();**/
@@ -154,7 +156,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
@@ -163,11 +166,17 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.menu_settings:
+                /**
+                Intent i = new Intent(this, MyPreferenceFragment.class);
+                startActivity(i);**/
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, SetPreferenceActivity.class);
+                startActivityForResult(intent, 0);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -192,6 +201,8 @@ public class MainActivity extends ActionBarActivity {
         Toast.makeText(getBaseContext(), "New record inserted", Toast.LENGTH_LONG)
                 .show();
     }
+
+
 
 
 }
