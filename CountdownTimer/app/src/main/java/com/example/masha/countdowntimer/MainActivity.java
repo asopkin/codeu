@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +34,16 @@ public class MainActivity extends ActionBarActivity {
     private Button showButton;
     private CommentsDataSource datasource;
     private static final int RESULT_SETTINGS = 1;
+    protected boolean mbActive;
+    protected ProgressBar mProgressBar;
+    protected static final int TIMER_RUNTIME = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mProgressBar = (ProgressBar)findViewById(R.id.adprogress_progressBar);
         //showUserSettings();
 
         /**datasource = new CommentsDataSource(this);
@@ -53,7 +59,29 @@ public class MainActivity extends ActionBarActivity {
         //3600000 is an hour
         //60000 <- is a minute, for testing purposes
         //10000 <- ~8 seconds
-        mCountDownTimer = new CountDownTimerWithPause(10000,1000,true) {
+        final Thread timerThread = new Thread() {
+            @Override
+            public void run() {
+                mbActive = true;
+                try {
+                    int waited = 0;
+                    while(mbActive && (waited < TIMER_RUNTIME)) {
+                        sleep(200);
+                        if(mbActive) {
+                            waited += 200;
+                            updateProgress(waited);
+                        }
+                    }
+                } catch(InterruptedException e) {
+                    // do nothing
+                } finally {
+                    onContinue();
+                }
+            }
+        };
+        timerThread.start();
+
+        mCountDownTimer = new CountDownTimerWithPause(TIMER_RUNTIME,1000,true) {
 
             TextView mTextField =  (TextView) findViewById(R.id.timer_view);
 
@@ -100,6 +128,7 @@ public class MainActivity extends ActionBarActivity {
                 // mId allows you to update the notification later on.
                 mNotificationManager.notify(234234, mBuilder.build());
                 **/
+                sendMessage();
             }
 
 
@@ -200,6 +229,18 @@ public class MainActivity extends ActionBarActivity {
         Uri uri = getContentResolver().insert(MyProvider.CONTENT_URI, values);
         Toast.makeText(getBaseContext(), "New record inserted", Toast.LENGTH_LONG)
                 .show();
+    }
+
+    public void updateProgress(final int timePassed) {
+        if(null != mProgressBar) {
+            // Ignore rounding error here
+            final int progress = mProgressBar.getMax() * timePassed / TIMER_RUNTIME;
+            mProgressBar.setProgress(progress);
+        }
+    }
+
+    public void onContinue() {
+        // perform any final actions here
     }
 
 
