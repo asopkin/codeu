@@ -18,7 +18,8 @@
             android:key="edittext_preference"
             android:title="Your name"
             android:summary="How do you want to be addressed?"
-            android:dialogTitle="dialog_title_edittext_preference" />
+            android:dialogTitle="dialog_title_edittext_preference"
+            android:defaultValue="Amanda"/>
 
     </PreferenceCategory>
 
@@ -28,8 +29,9 @@
             android:key="select_timing"
             android:title="Notifications Timing Preference"
             android:entries="@array/frequency_options"
-            android:entryValues="@array/frequency_options"
-            android:dialogTitle="Select Frequency of Notitifications"/>
+            android:entryValues="@array/frequency_values"
+            android:dialogTitle="Select Frequency of Notitifications"
+            android:defaultValue="11000"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

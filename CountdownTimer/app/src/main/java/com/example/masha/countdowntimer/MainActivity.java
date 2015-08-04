@@ -1,15 +1,20 @@
 package com.example.masha.countdowntimer;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -38,12 +43,21 @@ public class MainActivity extends ActionBarActivity {
     private static final int RESULT_SETTINGS = 1;
     protected boolean mbActive;
     protected ProgressBar mProgressBar;
-    protected static final int TIMER_RUNTIME = 10000;
+    private int TIMER_RUNTIME = 10000;
+    private String userName;
+    private Context context;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //String gimme = sharedPrefs.getString("edittext_preference", "Amanda");
+
+
         int tracker = 25;
 
         mProgressBar = (ProgressBar)findViewById(R.id.adprogress_progressBar);
@@ -54,18 +68,7 @@ public class MainActivity extends ActionBarActivity {
         mProgressBar.setSecondaryProgress(50); // Secondary Progress
         mProgressBar.setMax(100); // Maximum Progress
         mProgressBar.setProgressDrawable(drawable);
-        //showUserSettings();
 
-        /**datasource = new CommentsDataSource(this);
-        datasource.open();**/
-        /**
-        List<Comment> values = datasource.getAllComments();
-
-        // use the SimpleCursorAdapter to show the
-        // elements in a ListView
-        ArrayAdapter<Comment> adapter = new ArrayAdapter<Comment>(this,
-                android.R.layout.simple_list_item_1, values);
-        setListAdapter(adapter);**/
         //3600000 is an hour
         //60000 <- is a minute, for testing purposes
         //10000 <- ~8 seconds
@@ -138,7 +141,7 @@ public class MainActivity extends ActionBarActivity {
                 // mId allows you to update the notification later on.
                 mNotificationManager.notify(234234, mBuilder.build());
                 **/
-                mProgressBar.setProgress(0);
+
                 sendMessage();
             }
 
@@ -282,6 +285,8 @@ public class MainActivity extends ActionBarActivity {
     public void onContinue() {
         // perform any final actions here
     }
+
+
 
 
 
