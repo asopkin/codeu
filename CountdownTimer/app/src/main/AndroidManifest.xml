@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.masha.countdowntimer" >
 
+    <!-- This permission is necessary in order for CountdownTimer to perform network access. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permissions required by the sync adapter -->
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,8 +35,16 @@
             android:name=".MyProvider"
             android:authorities="com.example.contentproviderexample.MyProvider"
             android:exported="true"
-            android:multiprocess="true" >
+            android:multiprocess="true"
+            android:syncable = "true">
         </provider>
+
+        <provider
+            android:name=".StubProvider"
+            android:authorities="@string/content_authority"
+            android:exported="true"
+            android:syncable="true"
+            android:multiprocess="true"/>
 
         <activity
             android:name=".AddExerciseActivity"
@@ -40,6 +58,29 @@
             android:name=".SetPreferenceActivity"
             android:label="@string/title_activity_main" >
         </activity>
+        <!-- SyncAdapter's dummy authentication service -->
+        <service
+            android:name=".sync.MyAuthenticatorService"
+            >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+        <!-- The SyncAdapter service -->
+        <service
+            android:name=".sync.MySyncService"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
     </application>
 
 </manifest>

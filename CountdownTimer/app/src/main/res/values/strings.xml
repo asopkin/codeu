@@ -13,6 +13,9 @@
     <string name="skip_button_label">Skip</string>
     <string name="title_activity_add_exercise">AddExerciseActivity</string>
 
+    <string name="content_authority">com.example.android.countdowntimer.app</string>
+    <string name="sync_account_type">countdowntimer.example.com</string>
+
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
 

@@ -4,8 +4,6 @@ package com.example.masha.countdowntimer;
  * Created by asopkin on 7/29/2015.
  */
 
-import java.util.HashMap;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -18,8 +16,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import java.util.HashMap;
+
 public class MyProvider extends ContentProvider {
     static final String PROVIDER_NAME = "com.example.contentproviderexample.MyProvider";
+    //static final String PROVIDER_NAME = ".MyProvider";
+
     static final String URL = "content://" + PROVIDER_NAME + "/cte";
     static final Uri CONTENT_URI = Uri.parse(URL);
 

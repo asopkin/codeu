@@ -1,29 +1,23 @@
 package com.example.masha.countdowntimer;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-import java.util.Random;
+import com.example.masha.countdowntimer.sync.MySyncAdapter;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -34,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
     private Button pauseButton;
     private Button addButton;
     private Button showButton;
+    private Button refreshButton;
     private CommentsDataSource datasource;
     private static final int RESULT_SETTINGS = 1;
     protected boolean mbActive;
@@ -46,7 +41,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         int tracker = 25;
 
-        mProgressBar = (ProgressBar)findViewById(R.id.adprogress_progressBar);
+        Log.d("Main Activity", "What's happening?");
+
+                mProgressBar = (ProgressBar) findViewById(R.id.adprogress_progressBar);
 
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular);
@@ -170,6 +167,15 @@ public class MainActivity extends ActionBarActivity {
 
         showButton = (Button)findViewById(R.id.showButton);
         showButton.setOnClickListener(myhandler2);
+
+        refreshButton = (Button)findViewById(R.id.refreshButton);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                Log.d("MainActivity", "This means the button was clicked");
+                MySyncAdapter.syncImmediately(MainActivity.this);
+            }
+        });
 
 
     }
