@@ -74,4 +74,12 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/blue"
         android:text="See all exercises"/>
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/showButton"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/blue"
+        android:text="Refresh"/>
 </RelativeLayout>

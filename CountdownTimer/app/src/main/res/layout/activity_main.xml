@@ -18,9 +18,7 @@
         android:layout_height="250dp"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_centerHorizontal="true"
-        android:indeterminate="false"
-        android:max="100"
-        android:secondaryProgress="100"
+        android:indeterminateOnly="false"
         android:progressDrawable="@drawable/circular" />
 
 

@@ -92,7 +92,7 @@ public class ExerciseActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_exercise, menu);
+        getMenuInflater().inflate(R.menu.settings, menu);
 
         return true;
     }
@@ -105,6 +105,7 @@ public class ExerciseActivity extends ActionBarActivity {
         switch (item.getItemId()) {
 
             case R.id.menu_settings:
+
                 Intent intent = new Intent();
                 intent.setClass(ExerciseActivity.this, SetPreferenceActivity.class);
                 startActivityForResult(intent, 0);

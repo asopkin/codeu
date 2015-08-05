@@ -1,5 +1,6 @@
 package com.example.masha.countdowntimer;
 
+import android.animation.ObjectAnimator;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.NotificationManager;
@@ -13,6 +14,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -41,10 +43,16 @@ public class MainActivity extends ActionBarActivity {
     private Button refreshButton;
     private CommentsDataSource datasource;
     private static final int RESULT_SETTINGS = 1;
-    protected boolean mbActive;
+    protected boolean mbActive = true;
     protected ProgressBar mProgressBar;
     private int TIMER_RUNTIME = 10000;
     private String userName;
+    private Boolean progressbar= true;
+    private int mProgressStatus = 0;
+    private int secondsPassed;
+    ObjectAnimator animation;
+
+    private Handler mHandler = new Handler();
    // private Context context;
 
 
@@ -61,31 +69,63 @@ public class MainActivity extends ActionBarActivity {
 
         int tracker = 25;
 
-        Log.d("Main Activity", "What's happening?");
+       // Log.d("Main Activity", "What's happening?");
 
-                mProgressBar = (ProgressBar) findViewById(R.id.adprogress_progressBar);
-
+       mProgressBar = (ProgressBar) findViewById(R.id.adprogress_progressBar);
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular);
-        mProgressBar.setProgress(tracker);   // Main Progress
-        mProgressBar.setSecondaryProgress(50); // Secondary Progress
-        mProgressBar.setMax(100); // Maximum Progress
         mProgressBar.setProgressDrawable(drawable);
+        animation = ObjectAnimator.ofInt(mProgressBar, "progress", 0, 100);
+        animation.setDuration(TIMER_RUNTIME);
+        //mProgressBar.setProgress(25);
+        //mProgressBar.setSecondaryProgress(50);
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (mProgressStatus < TIMER_RUNTIME) {
+                    if(progressbar) {
+                        mProgressStatus += 200;
+                    }
+                    // Update the progress bar
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            if(progressbar) {
+                               //mProgressBar.setProgress(mProgressStatus);
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
+
+        /**
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.circular);
+        if(progressbar){
+            mProgressBar.setProgress(tracker);   // Main Progress
+            //mProgressBar.setSecondaryProgress(50); // Secondary Progress
+            //mProgressBar.setMax(100); // Maximum Progress
+            mProgressBar.setProgressDrawable(drawable);
+        }**/
+
 
         //3600000 is an hour
         //60000 <- is a minute, for testing purposes
         //10000 <- ~8 seconds
+        /**
         final Thread timerThread = new Thread() {
             @Override
             public void run() {
-                mbActive = true;
+                //mbActive = true;
                 try {
                     int waited = 0;
                     while(mbActive && (waited < TIMER_RUNTIME)) {
                         sleep(200);
                         if(mbActive) {
                             waited += 200;
-                            updateProgress(waited);
+                            if(progressbar) {
+                                updateProgress(waited);
+                            }
                         }
                     }
                 } catch(InterruptedException e) {
@@ -95,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         };
-        timerThread.start();
+        timerThread.start();**/
 
         mCountDownTimer = new CountDownTimerWithPause(TIMER_RUNTIME,1000,true) {
 
@@ -105,6 +145,7 @@ public class MainActivity extends ActionBarActivity {
                 int seconds = (int) (millisUntilFinished / 1000);
                 int minutes = seconds / 60;
                 seconds = seconds % 60;
+                secondsPassed = seconds;
 
                 if (seconds < 10) {
                     mTextField.setText("" + minutes + ":0" + seconds);
@@ -128,6 +169,8 @@ public class MainActivity extends ActionBarActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                //updateProgress(secondsPassed);
+                mProgressBar.setProgress(mProgressStatus);
                 mCountDownTimer.resume();
 
             }
@@ -138,6 +181,7 @@ public class MainActivity extends ActionBarActivity {
         pauseButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                onPause();
                 mCountDownTimer.pause();
 
             }
@@ -150,17 +194,16 @@ public class MainActivity extends ActionBarActivity {
         showButton.setOnClickListener(myhandler2);
 
         refreshButton = (Button)findViewById(R.id.refreshButton);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Log.d("MainActivity", "This means the button was clicked");
-                MySyncAdapter.syncImmediately(MainActivity.this);
-            }
-        });
-
-
+        refreshButton.setOnClickListener(refreshHandler);
     }
 
+    View.OnClickListener refreshHandler = new View.OnClickListener() {
+        public void onClick(View v) {
+            // it was the 1st button
+            Log.d("MainActivity", "button clicked");
+            MySyncAdapter.syncImmediately(MainActivity.this);
+        }
+    };
 
     View.OnClickListener myhandler1 = new View.OnClickListener() {
         public void onClick(View v) {
@@ -184,7 +227,7 @@ public class MainActivity extends ActionBarActivity {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("My notification")
+                        .setContentTitle("Attention")
                         .setContentText("Do your exercises!");
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ExerciseActivity.class);
@@ -228,6 +271,7 @@ public class MainActivity extends ActionBarActivity {
                 /**
                 Intent i = new Intent(this, MyPreferenceFragment.class);
                 startActivity(i);**/
+                mCountDownTimer.pause();
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, SetPreferenceActivity.class);
                 startActivityForResult(intent, 0);
@@ -244,10 +288,20 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, ExerciseActivity.class);
         startActivity(intent);
     }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        animation.cancel();
+        progressbar = false;
+        mProgressBar.setProgress(0);
+        mbActive = false;
+
+    }
 
     @Override
     protected void onResume() {
       super.onResume();
+        progressbar = true;
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular);
         mProgressBar.setProgress(25);   // Main Progress

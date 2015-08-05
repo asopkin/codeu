@@ -18,13 +18,12 @@
         android:layout_height="250dp"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
         android:indeterminate="false"
         android:max="100"
         android:secondaryProgress="100"
         android:progressDrawable="@drawable/circular" />
 
-<!--
+
     <TextView
         android:id="@+id/timer_view"
         android:layout_width="wrap_content"
@@ -35,7 +34,7 @@
         android:layout_marginBottom="37dp"
         android:textSize="40sp"
         android:textColor="@color/light_blue"
-        android:text="@string/timerVal" /> -->
+        android:text="@string/timerVal" />
 
     <Button
         android:id="@+id/startButton"
@@ -45,7 +44,6 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="38dp"
         android:textColor="@color/blue"
-        android:layout_below="@+id/adprogress_progressBar"
         android:text="@string/startButtonLabel" />
     <Button
         android:id="@+id/addButton"
@@ -54,7 +52,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_alignBaseline="@+id/skip_button"
-        android:layout_below="@+id/adprogress_progressBar"
         android:textColor="@color/blue"
         android:text="Add Exercise"/>
 
@@ -64,7 +61,6 @@
         android:layout_height="45dp"
         android:layout_alignBaseline="@+id/startButton"
         android:layout_alignBottom="@+id/startButton"
-        android:layout_below="@+id/adprogress_progressBar"
         android:layout_alignParentRight="true"
         android:layout_marginRight="38dp"
         android:textColor="@color/blue"
@@ -78,4 +74,12 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/blue"
         android:text="See all exercises"/>
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/showButton"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/blue"
+        android:text="Refresh"/>
 </RelativeLayout>
