@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -44,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
     protected ProgressBar mProgressBar;
     private int TIMER_RUNTIME = 10000;
     private String userName;
-    private Context context;
+   // private Context context;
 
 
 
@@ -184,7 +185,7 @@ public class MainActivity extends ActionBarActivity {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setContentText("Do your exercises!");
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ExerciseActivity.class);
 
