@@ -47,6 +47,15 @@
         android:id="@+id/delete_exercise"
         android:onClick="onClickDeleteExercise"
         android:layout_weight="1"/>
+        <Button
+            android:id="@+id/delete_all"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textColor="@color/blue"
+            android:text="Delete all"
+            android:onClick="onClickDeleteAll"
+            android:layout_below="@+id/delete_exercise"
+            />
     </LinearLayout>
 </RelativeLayout>
 

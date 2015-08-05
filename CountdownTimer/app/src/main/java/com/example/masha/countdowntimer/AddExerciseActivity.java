@@ -28,7 +28,7 @@ public class AddExerciseActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_exercise, menu);
+        getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
@@ -37,11 +37,17 @@ public class AddExerciseActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.menu_settings:
+                /**
+                 Intent i = new Intent(this, MyPreferenceFragment.class);
+                 startActivity(i);**/
+                Intent intent = new Intent();
+                intent.setClass(AddExerciseActivity.this, SetPreferenceActivity.class);
+                startActivityForResult(intent, 0);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -54,6 +60,7 @@ public class AddExerciseActivity extends ActionBarActivity {
         Uri uri = getContentResolver().insert(MyProvider.CONTENT_URI, values);
         Toast.makeText(getBaseContext(), "New exercise inserted", Toast.LENGTH_LONG)
                 .show();
+        num_exercises++;
     }
 
     public void onClickDeleteExercise(View view){
@@ -62,5 +69,13 @@ public class AddExerciseActivity extends ActionBarActivity {
         int ret_val = getContentResolver().delete(MyProvider.CONTENT_URI,MyProvider.id + " = " + num_exercises, null);
         Toast.makeText(getBaseContext(), "First exercise deleted", Toast.LENGTH_LONG).show();
         num_exercises--;
+    }
+    public void onClickDeleteAll(View view){
+        while(num_exercises>0){
+            int ret_val = getContentResolver().delete(MyProvider.CONTENT_URI,MyProvider.id + " = " + num_exercises, null);
+            num_exercises--;
+
+        }
+        Toast.makeText(getBaseContext(), "All done", Toast.LENGTH_LONG).show();
     }
 }

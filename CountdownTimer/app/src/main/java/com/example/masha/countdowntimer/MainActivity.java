@@ -208,6 +208,7 @@ public class MainActivity extends ActionBarActivity {
     View.OnClickListener myhandler1 = new View.OnClickListener() {
         public void onClick(View v) {
             // it was the 1st button
+            mCountDownTimer.pause();
             Intent intentMain = new Intent(MainActivity.this ,
                     AddExerciseActivity.class);
             MainActivity.this.startActivity(intentMain);
