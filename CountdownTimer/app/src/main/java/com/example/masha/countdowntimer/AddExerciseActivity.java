@@ -10,20 +10,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class AddExerciseActivity extends ActionBarActivity {
     private Button addButton;
-    public int num_exercises = 11;
+    public int num_exercises;
+    private TextView mTextView;
+    private static final String KEY_TEXT_VALUE = "txtName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_exercise);
+        mTextView = (TextView)findViewById(R.id.txtName);
+        if (savedInstanceState != null) {
+            String savedText = savedInstanceState.getString(KEY_TEXT_VALUE);
+            mTextView.setText(savedText);
+        }
 
     }
 
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String gimme = mTextView.getText().toString();
+        outState.putString(KEY_TEXT_VALUE, gimme);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

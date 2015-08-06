@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/timer_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/pauseButton"
         android:layout_below="@+id/adprogress_progressBar"
         android:layout_centerHorizontal="true"
@@ -73,7 +73,7 @@
         android:layout_below="@+id/addButton"
         android:layout_centerHorizontal="true"
         android:textColor="@color/blue"
-        android:text="See all exercises"/>
+        android:text="See all tablets"/>
     <Button
         android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
