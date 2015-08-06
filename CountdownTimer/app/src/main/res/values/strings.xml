@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CountdownTimer</string>
+    <string name="app_name">Habit Maker</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="timerVal">00:00</string>
     <string name="exercise">Do 10 push-ups!</string>
     <string name="pauseButtonLabel">Pause</string>
     <string name="startButtonLabel">Start</string>
-    <string name="title_activity_exercise">ExerciseActivity</string>
+    <string name="title_activity_exercise">Get it done!</string>
     <string name="done_button_label">Done</string>
     <string name="skip_button_label">Skip</string>
-    <string name="title_activity_add_exercise">AddExerciseActivity</string>
+    <string name="title_activity_add_exercise">Add a habit</string>
 
     <string name="content_authority">com.example.android.countdowntimer.app</string>
     <string name="sync_account_type">countdowntimer.example.com</string>
 
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Habit maker</string>
 
 
     <string name="pref_send_report">Send crash reports</string>

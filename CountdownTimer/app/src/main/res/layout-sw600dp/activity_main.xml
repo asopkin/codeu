@@ -21,6 +21,7 @@
         android:indeterminate="false"
         android:max="100"
         android:secondaryProgress="100"
+        android:layout_marginBottom="20dp"
         android:progressDrawable="@drawable/circular" />
 
 
@@ -28,7 +29,7 @@
         android:id="@+id/timer_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_above="@+id/pauseButton"
+        android:layout_above="@+id/addButton"
         android:layout_below="@+id/adprogress_progressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="37dp"
