@@ -1,5 +1,6 @@
 package com.example.masha.countdowntimer;
 
+import android.content.ContentProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,32 +8,43 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import com.example.masha.countdowntimer.MyProvider;
+import com.example.masha.countdowntimer.TodoDatabaseHelper;
 
 
-public class ExerciseActivity extends ActionBarActivity {
+public class ExerciseActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private Button doneButton;
     private Button skipButton;
     private Button addButton;
+    private String exerciseName = "";
     private CommentsDataSource datasource;
+    CursorLoader cursorLoader;
     TextView mylistpref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
+        getSupportLoaderManager().initLoader(1, null, this);
+        /**
         datasource = new CommentsDataSource(this);
         datasource.open();
 
@@ -40,20 +52,20 @@ public class ExerciseActivity extends ActionBarActivity {
         final String[] comments = new String[]{"Dumbbells Exercise: lift 3", "Intervals: run for 20 minutes", "Ab crunches" };
 
 
-        int nextInt = new Random().nextInt(3);
+        int nextInt = new Random().nextInt(3);**/
         // globally
         TextView myAwesomeTextView = (TextView)findViewById(R.id.timer_view);
-
+/**
         Comment comment = null;
-        comment = datasource.createComment(comments[nextInt]);
+        comment = datasource.createComment(comments[nextInt]);**/
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String gimme = sharedPrefs.getString("edittext_preference", "Amanda");
 
         Toast toast = Toast.makeText(getApplicationContext(), gimme, Toast.LENGTH_LONG);
         toast.show();
-        String tester = comment.toString();
-        myAwesomeTextView.setText(tester);
+
+        myAwesomeTextView.setText(exerciseName);
 
 
 
@@ -114,6 +126,39 @@ public class ExerciseActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+        cursorLoader= new CursorLoader(this, Uri.parse("content://com.example.contentproviderexample.MyProvider/cte"), null, null, null, null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
+        cursor.moveToFirst();
+      //  if(cursor.isAfterLast()){
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            exerciseName = name;
+            TextView myAwesomeTextView = (TextView)findViewById(R.id.timer_view);
+            myAwesomeTextView.setText(exerciseName);
+            cursor.close();
+       // }
+
+
+
+    }
+
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+
 
 
 
