@@ -56,6 +56,14 @@
             android:label="Exercise">
         </activity>
         <activity
+            android:name=".RssFeedActivity"
+            android:label="Fragments">
+        </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:label="Details" >
+        </activity>
+        <activity
             android:name=".SetPreferenceActivity"
             android:label="@string/title_activity_main"
             android:configChanges="orientation|screenSize">

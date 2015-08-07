@@ -71,13 +71,8 @@ public class ExerciseActivity extends ActionBarActivity implements LoaderManager
 
         doneButton = (Button) findViewById(R.id.done_button);
 
-        doneButton.setOnClickListener(new View.OnClickListener() {
+        doneButton.setOnClickListener(doneHandler);
 
-            public void onClick(View view) {
-                finish();
-
-            }
-        });
 
         skipButton = (Button) findViewById(R.id.skip_button);
 
@@ -98,6 +93,15 @@ public class ExerciseActivity extends ActionBarActivity implements LoaderManager
             // it was the 1st button
             Intent intentMain = new Intent(ExerciseActivity.this ,
                     AddExerciseActivity.class);
+            ExerciseActivity.this.startActivity(intentMain);
+        }
+    };
+
+    View.OnClickListener doneHandler = new View.OnClickListener() {
+        public void onClick(View v) {
+            // it was the 1st button
+            Intent intentMain = new Intent(ExerciseActivity.this ,
+                    RssFeedActivity.class);
             ExerciseActivity.this.startActivity(intentMain);
         }
     };
