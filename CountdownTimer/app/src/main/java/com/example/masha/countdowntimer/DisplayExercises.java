@@ -84,9 +84,10 @@ public class DisplayExercises extends FragmentActivity implements LoaderManager.
         do{
             String id=cursor.getString(cursor.getColumnIndex("id"));
             String name=cursor.getString(cursor.getColumnIndex("name"));
-            // String name_str = id +" : "+ name;
-            listItems2.add(id);
-            listItems.add(name);
+            String descrip = cursor.getString(cursor.getColumnIndex("descrip"));
+             String name_str = id +" : "+ name;
+            listItems2.add(name_str);
+            listItems.add(descrip);
             cursor.moveToNext();
         }while(!cursor.isAfterLast());
 

@@ -27,6 +27,7 @@ public class MyProvider extends ContentProvider {
 
     static final String id = "id";
     static final String name = "name";
+    static final String descrip = "descrip";
     static final int uriCode = 1;
     static final UriMatcher uriMatcher;
     public static final String _ID = "_id";
@@ -129,7 +130,7 @@ public class MyProvider extends ContentProvider {
     static final int DATABASE_VERSION = 1;
     static final String CREATE_DB_TABLE = " CREATE TABLE " + TABLE_NAME
             + " (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + " name TEXT NOT NULL);";
+            + " name TEXT NOT NULL, " + " descrip TEXT NOT NULL);";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper(Context context) {

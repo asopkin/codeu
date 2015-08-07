@@ -18,16 +18,21 @@ public class AddExerciseActivity extends ActionBarActivity {
     private Button addButton;
     public int num_exercises;
     private TextView mTextView;
+    private TextView descripView;
     private static final String KEY_TEXT_VALUE = "txtName";
+    private static final String DESCRIP_TEXT_VALUE = "txtDescrip";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_exercise);
         mTextView = (TextView)findViewById(R.id.txtName);
+        descripView = (TextView)findViewById(R.id.txtDescrip);
         if (savedInstanceState != null) {
             String savedText = savedInstanceState.getString(KEY_TEXT_VALUE);
             mTextView.setText(savedText);
+            String saved2 = savedInstanceState.getString(DESCRIP_TEXT_VALUE);
+            descripView.setText(saved2);
         }
 
     }
@@ -37,6 +42,8 @@ public class AddExerciseActivity extends ActionBarActivity {
         super.onSaveInstanceState(outState);
         String gimme = mTextView.getText().toString();
         outState.putString(KEY_TEXT_VALUE, gimme);
+        String gimme2 = descripView.getText().toString();
+        outState.putString(DESCRIP_TEXT_VALUE, gimme2);
     }
 
     @Override
@@ -71,6 +78,8 @@ public class AddExerciseActivity extends ActionBarActivity {
         ContentValues values = new ContentValues();
         values.put(MyProvider.name, ((EditText) findViewById(R.id.txtName))
                 .getText().toString());
+        //values.put(MyProvider.descrip, "testerrrr");
+        values.put(MyProvider.descrip,((EditText)findViewById(R.id.txtDescrip)).getText().toString() );
         Uri uri = getContentResolver().insert(MyProvider.CONTENT_URI, values);
         Toast.makeText(getBaseContext(), "New exercise inserted", Toast.LENGTH_LONG)
                 .show();
