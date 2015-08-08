@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Random;
+
 public class MyListFragment extends Fragment {
 
     private OnItemSelectedListener listener;
@@ -54,11 +56,15 @@ public class MyListFragment extends Fragment {
     // may also be triggered from the Activity
     public void updateDetail() {
         // create a string just for testing
-        String newTime = String.valueOf(System.currentTimeMillis());
+       // String newTime = String.valueOf(System.currentTimeMillis());
+        final String[] comments = new String[]{"You did it!", "You rock.", "Congrats" };
 
+
+        int nextInt = new Random().nextInt(3);
+        String congrats = comments[nextInt];
         // inform the Activity about the change based
         // interface defintion
-        listener.onRssItemSelected(newTime);
+        listener.onRssItemSelected(congrats);
     }
 }
 
