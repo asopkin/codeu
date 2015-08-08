@@ -8,6 +8,8 @@
         android:id="@+id/listFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="?android:attr/actionBarSize"
         class="com.example.masha.countdowntimer.MyListFragment" />
 </LinearLayout>
