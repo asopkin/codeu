@@ -1,24 +1,26 @@
 package com.example.masha.countdowntimer;
 
 import android.animation.ObjectAnimator;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.LoaderManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,13 +28,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.masha.countdowntimer.quotedata.QuoteProvider;
+import com.example.masha.countdowntimer.quotedata.QuoteTable;
 import com.example.masha.countdowntimer.sync.MySyncAdapter;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     //countdown timer needs to be put in a service so it can run in the background
     private CountDownTimerWithPause mCountDownTimer;
@@ -51,9 +57,23 @@ public class MainActivity extends ActionBarActivity {
     private int mProgressStatus = 0;
     private int secondsPassed;
     ObjectAnimator animation;
+    private SimpleCursorAdapter adapter;
+
+
 
     private Handler mHandler = new Handler();
    // private Context context;
+
+    private static final String[] DETAIL_COLUMNS = {
+            QuoteTable.COLUMN_QUOTE,
+            QuoteTable.COLUMN_AUTHOR
+    };
+
+    // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
+    // must change.
+   // public static final int COL_QUOTE_ID = 0;
+    public static final int COL_QUOTE = 0;
+    public static final int COL_QUOTE_AUTHOR = 1;
 
 
 
@@ -195,6 +215,16 @@ public class MainActivity extends ActionBarActivity {
 
         refreshButton = (Button)findViewById(R.id.refreshButton);
         refreshButton.setOnClickListener(refreshHandler);
+
+        String[] projection = {QuoteTable.COLUMN_QUOTE};
+
+        //Cursor cursor = getContentResolver().query(QuoteProvider.CONTENT_URI, projection, null, null, null, null);
+        Cursor cursor = getContentResolver().query(QuoteProvider.CONTENT_URI, null, null, null, null, null);
+        boolean dataExists = cursor.moveToFirst();
+        Log.d("DATA EXISTS OR NOT?" , dataExists + " ");
+
+        MySyncAdapter.initializeSyncAdapter(this);
+        getLoaderManager().initLoader(0, null, this);
     }
 
     View.OnClickListener refreshHandler = new View.OnClickListener() {
@@ -357,9 +387,44 @@ public class MainActivity extends ActionBarActivity {
         // perform any final actions here
     }
 
+    // creates a new loader after the initLoader () call
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d("CURSOR LOADER CREATE", "Just created the cursor loader");
+        //String []  quote = {QuoteTable.COLUMN_QUOTE};
+        CursorLoader cursorLoader = new CursorLoader(this,
+                QuoteProvider.CONTENT_URI,DETAIL_COLUMNS, null, null, null);
+        return cursorLoader;
+    }
 
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d("WHEEE", "I'M STILL NOT WORKING");
+        if (data == null) {
+            Log.d("NULL", "AH NO THIS ISN'T SUPPOSED TO HAPPEN!");
+        }
+        if (data != null) {
+            Log.d("YAY", "HUZZAH!");
+        }
+        if (!data.moveToFirst()) {
+            Log.d("THIS", "SUCKS");
+        }
+        if (data != null && data.moveToFirst()) {
+            // Read weather condition ID from cursor
+            String quote = data.getString(COL_QUOTE);
+            String author = data.getString(COL_QUOTE_AUTHOR);
 
+            String display = quote + "\n" + "~" + author;
+            Log.d("WHYYOUNODISPLAY", display);
+            TextView quoteView = (TextView) findViewById(R.id.quote_view);
+            quoteView.setText(display);
+            quoteView.setMovementMethod(new ScrollingMovementMethod());
+            quoteView.setBackgroundColor(getResources().getColor(R.color.dark_blue));
+        }
+    }
 
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
 
-
+        }
 }

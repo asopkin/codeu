@@ -41,7 +41,7 @@
         </provider>
 
         <provider
-            android:name=".StubProvider"
+            android:name=".quotedata.QuoteProvider"
             android:authorities="@string/content_authority"
             android:exported="true"
             android:syncable="true"

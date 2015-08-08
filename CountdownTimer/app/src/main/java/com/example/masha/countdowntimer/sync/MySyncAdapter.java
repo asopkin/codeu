@@ -5,15 +5,21 @@ import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
 
 import com.example.masha.countdowntimer.R;
+import com.example.masha.countdowntimer.quotedata.QuoteProvider;
+import com.example.masha.countdowntimer.quotedata.QuoteTable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,9 +34,10 @@ import java.net.URL;
 
 public class MySyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = MySyncAdapter.class.getSimpleName();
-    // Interval at which to sync with the weather, in seconds.
-    // 60 seconds (1 minute) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 60 * 180;
+    // Interval at which to get the new quote, in seconds.
+    // 60 seconds (1 minute) * 180 * 8 = 24 hours
+    // we want a new quote every day
+    public static final int SYNC_INTERVAL = 60 * 180 * 8;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
@@ -148,11 +155,12 @@ public class MySyncAdapter extends AbstractThreadedSyncAdapter {
             // we start at the day returned by local time. Otherwise this is a mess.
             int today = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
 
-            //long quoteId = addQuote(today, quotename, quoteLength, author);
+            addQuote(quotename, author, today);
 
             Log.d(LOG_TAG, "Quote name :" + quotename);
             Log.d(LOG_TAG, "Quote length :" + quoteLength);
             Log.d(LOG_TAG, "Quote author :" + author);
+            Log.d(LOG_TAG, "Sync Complete. ");
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
@@ -165,46 +173,47 @@ public class MySyncAdapter extends AbstractThreadedSyncAdapter {
      *
      */
 
-    /*long addQuote(int date, String quoteName, int quoteLength, String author) {
-        long locationId;
+    void addQuote(String quoteName, String author, int date) {
 
-        // First, check if the location with this city name exists in the db
-        Cursor locationCursor = getContext().getContentResolver().query(
-                WeatherContract.LocationEntry.CONTENT_URI,
-                new String[]{WeatherContract.LocationEntry._ID},
-                WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
-                new String[]{locationSetting},
+        Time dayTime = new Time();
+        dayTime.setToNow();
+        int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
+        dayTime = new Time();
+
+        ContentValues quoteValues = new ContentValues();
+        quoteValues.put(QuoteTable.COLUMN_QUOTE, quoteName);
+        quoteValues.put(QuoteTable.COLUMN_AUTHOR, author);
+        quoteValues.put(QuoteTable.COLUMN_DATE, date);
+
+        Uri insertedUri = getContext().getContentResolver().insert(QuoteProvider.CONTENT_URI, quoteValues);
+        long quoteId = ContentUris.parseId(insertedUri);
+
+        Cursor cursor = getContext().getContentResolver().query(
+                QuoteProvider.CONTENT_URI,
+                new String[]{QuoteTable.COLUMN_QUOTE},
+                QuoteTable.COLUMN_ID + " = ?",
+                new String[]{quoteId+""},
                 null);
 
-        if (locationCursor.moveToFirst()) {
-            int locationIdIndex = locationCursor.getColumnIndex(WeatherContract.LocationEntry._ID);
-            locationId = locationCursor.getLong(locationIdIndex);
-        } else {
-            // Now that the content provider is set up, inserting rows of data is pretty simple.
-            // First create a ContentValues object to hold the data you want to insert.
-            ContentValues locationValues = new ContentValues();
-
-            // Then add the data, along with the corresponding name of the data type,
-            // so the content provider knows what kind of value is being inserted.
-            locationValues.put(WeatherContract.LocationEntry.COLUMN_CITY_NAME, cityName);
-            locationValues.put(WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
-            locationValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LAT, lat);
-            locationValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LONG, lon);
-
-            // Finally, insert location data into the database.
-            Uri insertedUri = getContext().getContentResolver().insert(
-                    WeatherContract.LocationEntry.CONTENT_URI,
-                    locationValues
-            );
-
-            // The resulting URI contains the ID for the row.  Extract the locationId from the Uri.
-            locationId = ContentUris.parseId(insertedUri);
+        if (cursor != null) {
+            Log.d(LOG_TAG, "CURSOR IS NOT NULL");
+            if (cursor.moveToFirst()) {
+                Log.d(LOG_TAG, "SUCCESSFULLY STORED IN DATABASE");
+                String quote = cursor.getString(0);
+                Log.d(LOG_TAG, "IT WORKS! IT WORKS! AHAHAHAA!");
+            }
         }
 
-        locationCursor.close();
-        // Wait, that worked?  Yes!
-        return locationId;
-    }*/
+        cursor.close();
+        //deletes all quotes that may have been inserted on a previous day
+        /*
+        getContext().getContentResolver().delete(QuoteProvider.CONTENT_URI,
+                QuoteTable.COLUMN_DATE + " <= ?",
+                new String[]{Long.toString(dayTime.setJulianDay(julianStartDay - 1))});
+*/
+        Log.d(LOG_TAG, quoteId + "");
+    }
+
 
     /**
      * Helper method to schedule the sync adapter periodic execution
