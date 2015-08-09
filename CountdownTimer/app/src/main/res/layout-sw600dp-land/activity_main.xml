@@ -52,6 +52,7 @@
         android:layout_height="45dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
         android:layout_below="@+id/adprogress_progressBar"
         android:layout_alignBaseline="@+id/skip_button"
         android:textColor="@color/blue"
