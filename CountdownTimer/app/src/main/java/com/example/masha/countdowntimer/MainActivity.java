@@ -419,6 +419,7 @@ public class MainActivity extends ActionBarActivity implements
             TextView quoteView = (TextView) findViewById(R.id.quote_view);
             quoteView.setText(display);
             quoteView.setMovementMethod(new ScrollingMovementMethod());
+            quoteView.setVerticalScrollbarPosition(View.SCROLLBAR_POSITION_LEFT);
             quoteView.setBackgroundColor(getResources().getColor(R.color.dark_blue));
         }
     }

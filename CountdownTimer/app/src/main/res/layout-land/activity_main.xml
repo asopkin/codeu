@@ -92,5 +92,6 @@
         android:textSize="30sp"
         android:textColor="@android:color/white"
         android:text="Placeholder"
+        android:maxLines="3"
         android:scrollbars = "vertical"/>
 </RelativeLayout>

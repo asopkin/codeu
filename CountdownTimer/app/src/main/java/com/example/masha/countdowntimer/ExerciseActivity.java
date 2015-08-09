@@ -61,8 +61,8 @@ public class ExerciseActivity extends ActionBarActivity implements LoaderManager
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String gimme = sharedPrefs.getString("edittext_preference", "Amanda");
-
-        Toast toast = Toast.makeText(getApplicationContext(), gimme, Toast.LENGTH_LONG);
+        String congratulatory = "Keep it up " + gimme;
+        Toast toast = Toast.makeText(getApplicationContext(), congratulatory, Toast.LENGTH_LONG);
         toast.show();
 
         myAwesomeTextView.setText(exerciseName);
