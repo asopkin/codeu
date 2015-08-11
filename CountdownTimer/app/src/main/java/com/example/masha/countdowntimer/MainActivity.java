@@ -13,6 +13,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -81,6 +82,15 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Cursor c = getContentResolver().query(MyProvider.CONTENT_URI, null, MyProvider.id + " = " + DatabaseUtils.sqlEscapeString("1"), null, null);
+        if(c.getCount() == 0)
+        {
+            ContentValues values = new ContentValues();
+            values.put(MyProvider.name, "Name");
+            values.put(MyProvider.descrip, "Description");
+            Uri uri = getContentResolver().insert(MyProvider.CONTENT_URI, values);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -189,7 +199,6 @@ public class MainActivity extends ActionBarActivity implements
         startButton = (Button) findViewById(R.id.startButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View view) {
                 mProgressBar.setProgress(pStatus);
                 mCountDownTimer.resume();
@@ -364,10 +373,11 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     protected void onResume() {
+        pStatus=0;
       super.onResume();
         progressbar = true;
         mProgressBar.setProgress(pStatus);
-        pStatus=0;
+
         Resources res = getResources();
        // Drawable drawable = res.getDrawable(R.drawable.circular);
        // mProgressBar.setProgress(25);   // Main Progress
@@ -396,6 +406,7 @@ public class MainActivity extends ActionBarActivity implements
             }
         };
         timerThread.start();
+        run();
         mCountDownTimer.create();
     }
 
