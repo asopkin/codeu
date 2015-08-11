@@ -41,15 +41,6 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/startButton"
-        android:layout_width="90dp"
-        android:layout_height="45dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="38dp"
-        android:textColor="@color/blue"
-        android:text="@string/startButtonLabel" />
-    <Button
         android:id="@+id/addButton"
         android:layout_width="125dp"
         android:layout_height="45dp"
@@ -75,15 +66,17 @@
         android:id="@+id/showButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/addButton"
-        android:layout_centerHorizontal="true"
         android:textColor="@color/blue"
+        android:layout_alignBaseline="@+id/addButton"
+        android:layout_alignBottom="@+id/addButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="38dp"
         android:text="See all exercises"/>
     <Button
         android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/showButton"
+        android:layout_below="@+id/pauseButton"
         android:layout_centerHorizontal="true"
         android:textColor="@color/blue"
         android:text="Refresh"/>

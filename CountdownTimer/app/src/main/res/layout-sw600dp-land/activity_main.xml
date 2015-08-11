@@ -85,7 +85,7 @@
         android:id="@+id/quote_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/addButton"
+        android:layout_below="@+id/refreshButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="37dp"
         android:textSize="30sp"
