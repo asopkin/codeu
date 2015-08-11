@@ -32,6 +32,7 @@
         android:gravity="center"
         android:textColor="@color/blue"
         android:textSize="40sp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
     <EditText
         android:id="@+id/txtDescrip"
@@ -39,12 +40,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/descrip_text"
+        android:layout_marginBottom="5dp"
         android:ems="4"/>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtName"
+        android:layout_below="@+id/txtDescrip"
         android:orientation="horizontal"
+        android:layout_marginTop="5dp"
         android:paddingLeft="4.0dip"
         android:paddingTop="5.0dip"
         android:paddingRight="4.0dip"
@@ -54,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:textColor="@color/blue"
-        android:text="Add Exercise"
+        android:text="Add Exercize"
         android:onClick="onClickAddName"
         android:layout_weight="1"/>
     <Button
