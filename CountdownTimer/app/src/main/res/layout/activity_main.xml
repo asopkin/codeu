@@ -51,6 +51,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_alignBaseline="@+id/skip_button"
+        android:layout_below="@+id/startButton"
         android:textColor="@color/blue"
         android:text="Add Exercise"/>
 

@@ -54,10 +54,12 @@ public class MainActivity extends ActionBarActivity implements
     private int TIMER_RUNTIME = 10000;
     private String userName;
     private Boolean progressbar= true;
+    boolean resumed = true;
     private int mProgressStatus = 0;
     private int secondsPassed;
     ObjectAnimator animation;
     private SimpleCursorAdapter adapter;
+    private int pStatus = 0;
 
 
 
@@ -92,17 +94,14 @@ public class MainActivity extends ActionBarActivity implements
 
         int tracker = 25;
 
-       // Log.d("Main Activity", "What's happening?");
-
        mProgressBar = (ProgressBar) findViewById(R.id.adprogress_progressBar);
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular);
         mProgressBar.setProgressDrawable(drawable);
-        animation = ObjectAnimator.ofInt(mProgressBar, "progress", 0, 100);
-        animation.setDuration(TIMER_RUNTIME);
-        //mProgressBar.setProgress(25);
+        mProgressBar.setProgress(pStatus);
         //mProgressBar.setSecondaryProgress(50);
-
+        run();
+        /**
         new Thread(new Runnable() {
             public void run() {
                 while (mProgressStatus < TIMER_RUNTIME) {
@@ -119,7 +118,7 @@ public class MainActivity extends ActionBarActivity implements
                     });
                 }
             }
-        }).start();
+        }).start();**/
 
         /**
         Resources res = getResources();
@@ -192,8 +191,7 @@ public class MainActivity extends ActionBarActivity implements
         startButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                //updateProgress(secondsPassed);
-                mProgressBar.setProgress(mProgressStatus);
+                mProgressBar.setProgress(pStatus);
                 mCountDownTimer.resume();
 
             }
@@ -204,8 +202,14 @@ public class MainActivity extends ActionBarActivity implements
         pauseButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                onPause();
-                mCountDownTimer.pause();
+                if(resumed){
+                    mCountDownTimer.pause();
+                    resumed = false;
+                }
+                else{
+                    mCountDownTimer.resume();
+                    resumed = true;
+                }
 
             }
         });
@@ -287,6 +291,30 @@ public class MainActivity extends ActionBarActivity implements
         // mId allows you to update the notification later on.
         mNotificationManager.notify(234234, mBuilder.build());
     }
+
+    public void run() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (pStatus < 100) {
+                    if (resumed) {
+                        pStatus += 2;
+                    }
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProgressBar.setProgress(pStatus);
+                        }
+                    });
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -325,8 +353,9 @@ public class MainActivity extends ActionBarActivity implements
     }
     @Override
     protected void onPause(){
+        mCountDownTimer.pause();
         super.onPause();
-        animation.cancel();
+    //    animation.cancel();
         progressbar = false;
         mProgressBar.setProgress(0);
         mbActive = false;
@@ -337,12 +366,14 @@ public class MainActivity extends ActionBarActivity implements
     protected void onResume() {
       super.onResume();
         progressbar = true;
+        mProgressBar.setProgress(pStatus);
+        pStatus=0;
         Resources res = getResources();
-        Drawable drawable = res.getDrawable(R.drawable.circular);
-        mProgressBar.setProgress(25);   // Main Progress
-        mProgressBar.setSecondaryProgress(50); // Secondary Progress
-        mProgressBar.setMax(100); // Maximum Progress
-        mProgressBar.setProgressDrawable(drawable);
+       // Drawable drawable = res.getDrawable(R.drawable.circular);
+       // mProgressBar.setProgress(25);   // Main Progress
+       // mProgressBar.setSecondaryProgress(50); // Secondary Progress
+       // mProgressBar.setMax(100); // Maximum Progress
+       // mProgressBar.setProgressDrawable(drawable);
         //showUserSettings();
 
         final Thread timerThread = new Thread() {
@@ -355,7 +386,6 @@ public class MainActivity extends ActionBarActivity implements
                         sleep(200);
                         if(mbActive) {
                             waited += 200;
-                            updateProgress(waited);
                         }
                     }
                 } catch(InterruptedException e) {
@@ -378,13 +408,6 @@ public class MainActivity extends ActionBarActivity implements
                 .show();
     }
 
-    public void updateProgress(final int timePassed) {
-        if(null != mProgressBar) {
-            // Ignore rounding error here
-            final int progress = mProgressBar.getMax() * timePassed / TIMER_RUNTIME;
-            mProgressBar.setProgress(progress);
-        }
-    }
 
     public void onContinue() {
         // perform any final actions here

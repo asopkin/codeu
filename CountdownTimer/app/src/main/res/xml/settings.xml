@@ -19,7 +19,7 @@
             android:title="Your name"
             android:summary="How do you want to be addressed?"
             android:dialogTitle="Your name"
-            android:defaultValue="Amanda"/>
+            android:defaultValue="Obama"/>
 
     </PreferenceCategory>
 
