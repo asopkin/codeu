@@ -156,8 +156,7 @@ public class MainActivity extends ActionBarActivity implements
             }
 
             public void onFinish() {
-
-
+                mProgressBar.setProgress(TIMER_RUNTIME);
                 sendMessage();
             }
 
