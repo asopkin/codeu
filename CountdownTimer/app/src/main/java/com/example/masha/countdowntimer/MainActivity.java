@@ -165,16 +165,6 @@ public class MainActivity extends ActionBarActivity implements
 
         //run();
 
-        startButton = (Button) findViewById(R.id.startButton);
-
-        startButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //mProgressBar.setProgress(pStatus);
-                mCountDownTimer.resume();
-
-            }
-        });
-
         pauseButton = (Button) findViewById(R.id.pauseButton);
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
@@ -182,10 +172,12 @@ public class MainActivity extends ActionBarActivity implements
             public void onClick(View view) {
                 if(resumed){
                     mCountDownTimer.pause();
+                    pauseButton.setText("Start");
                     resumed = false;
                 }
                 else{
                     mCountDownTimer.resume();
+                    pauseButton.setText("Pause");
                     resumed = true;
                 }
 
