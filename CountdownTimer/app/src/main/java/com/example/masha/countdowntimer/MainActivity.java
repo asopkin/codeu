@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity implements
     private static final int RESULT_SETTINGS = 1;
     protected boolean mbActive = true;
     protected ProgressBar mProgressBar;
-    private int TIMER_RUNTIME = 10000;
+    private int TIMER_RUNTIME = 11000;
     private String userName;
     private Boolean progressbar= true;
     boolean resumed = true;
@@ -108,9 +108,9 @@ public class MainActivity extends ActionBarActivity implements
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular);
         mProgressBar.setProgressDrawable(drawable);
-        mProgressBar.setProgress(pStatus);
+        //mProgressBar.setProgress(pStatus);
         //mProgressBar.setSecondaryProgress(50);
-        run();
+
         /**
         new Thread(new Runnable() {
             public void run() {
@@ -130,45 +130,10 @@ public class MainActivity extends ActionBarActivity implements
             }
         }).start();**/
 
-        /**
-        Resources res = getResources();
-        Drawable drawable = res.getDrawable(R.drawable.circular);
-        if(progressbar){
-            mProgressBar.setProgress(tracker);   // Main Progress
-            //mProgressBar.setSecondaryProgress(50); // Secondary Progress
-            //mProgressBar.setMax(100); // Maximum Progress
-            mProgressBar.setProgressDrawable(drawable);
-        }**/
-
-
         //3600000 is an hour
         //60000 <- is a minute, for testing purposes
         //10000 <- ~8 seconds
-        /**
-        final Thread timerThread = new Thread() {
-            @Override
-            public void run() {
-                //mbActive = true;
-                try {
-                    int waited = 0;
-                    while(mbActive && (waited < TIMER_RUNTIME)) {
-                        sleep(200);
-                        if(mbActive) {
-                            waited += 200;
-                            if(progressbar) {
-                                updateProgress(waited);
-                            }
-                        }
-                    }
-                } catch(InterruptedException e) {
-                    // do nothing
-                } finally {
-                    onContinue();
-                }
-            }
-        };
-        timerThread.start();**/
-
+        mProgressBar.setMax(TIMER_RUNTIME);
         mCountDownTimer = new CountDownTimerWithPause(TIMER_RUNTIME,1000,true) {
 
             TextView mTextField =  (TextView) findViewById(R.id.timer_view);
@@ -184,6 +149,9 @@ public class MainActivity extends ActionBarActivity implements
                 } else {
                     mTextField.setText("" + minutes + ":" + seconds);
                 }
+                int intme = (int)millisUntilFinished;
+                int val = (TIMER_RUNTIME - intme);
+                mProgressBar.setProgress(val);
 
             }
 
@@ -196,11 +164,13 @@ public class MainActivity extends ActionBarActivity implements
 
         }.create();
 
+        //run();
+
         startButton = (Button) findViewById(R.id.startButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mProgressBar.setProgress(pStatus);
+                //mProgressBar.setProgress(pStatus);
                 mCountDownTimer.resume();
 
             }
@@ -305,14 +275,14 @@ public class MainActivity extends ActionBarActivity implements
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (pStatus < 100) {
+                while (pStatus < 200) {
                     if (resumed) {
                         pStatus += 1;
                     }
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            mProgressBar.setProgress(pStatus);
+                            //mProgressBar.setProgress(pStatus);
                         }
                     });
                     try {
@@ -375,8 +345,8 @@ public class MainActivity extends ActionBarActivity implements
     protected void onResume() {
       super.onResume();
         pStatus=0;
-        mProgressBar.setProgress(pStatus);
-        run();
+       // mProgressBar.setProgress(pStatus);
+       // run();
         Resources res = getResources();
         final Thread timerThread = new Thread() {
             @Override

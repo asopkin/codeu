@@ -142,7 +142,9 @@ public class ExerciseActivity extends ActionBarActivity implements LoaderManager
 
     @Override
     public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-        cursor.moveToFirst();
+       // cursor.moveToFirst();
+        int gimme = cursor.getCount();
+        cursor.moveToPosition(gimme-1);
       //  if(cursor.isAfterLast()){
             String name = cursor.getString(cursor.getColumnIndex("name"));
             exerciseName = name;
