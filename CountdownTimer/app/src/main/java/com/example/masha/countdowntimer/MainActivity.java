@@ -307,7 +307,7 @@ public class MainActivity extends ActionBarActivity implements
             public void run() {
                 while (pStatus < 100) {
                     if (resumed) {
-                        pStatus += 2;
+                        pStatus += 1;
                     }
                     mHandler.post(new Runnable() {
                         @Override
@@ -373,19 +373,11 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     protected void onResume() {
-        pStatus=0;
       super.onResume();
-        progressbar = true;
+        pStatus=0;
         mProgressBar.setProgress(pStatus);
-
+        run();
         Resources res = getResources();
-       // Drawable drawable = res.getDrawable(R.drawable.circular);
-       // mProgressBar.setProgress(25);   // Main Progress
-       // mProgressBar.setSecondaryProgress(50); // Secondary Progress
-       // mProgressBar.setMax(100); // Maximum Progress
-       // mProgressBar.setProgressDrawable(drawable);
-        //showUserSettings();
-
         final Thread timerThread = new Thread() {
             @Override
             public void run() {
