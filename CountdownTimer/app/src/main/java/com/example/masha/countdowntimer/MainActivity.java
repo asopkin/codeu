@@ -83,7 +83,10 @@ public class MainActivity extends ActionBarActivity implements
         setContentView(R.layout.activity_main);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //String gimme = sharedPrefs.getString("edittext_preference", "Amanda");
+        String timing = sharedPrefs.getString("select_timing", "11000");
+        String congratulatory = "seconds: " + timing;
+        Toast toast = Toast.makeText(getApplicationContext(), congratulatory, Toast.LENGTH_LONG);
+        toast.show();
 
 
 
