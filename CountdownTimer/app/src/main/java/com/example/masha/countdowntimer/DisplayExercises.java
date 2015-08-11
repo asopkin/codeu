@@ -51,6 +51,7 @@ public class DisplayExercises extends FragmentActivity implements LoaderManager.
         txt_hidden = (TextView)findViewById(R.id.text2);
         //txt_hidden.setVisibility(View.GONE);
         resultView= (ExpandableListView) findViewById(R.id.list);
+        getSupportLoaderManager().initLoader(1, null, this);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class DisplayExercises extends FragmentActivity implements LoaderManager.
     }
 
     public void onClickDisplayNames(View view) {
-        getSupportLoaderManager().initLoader(1, null, this);
+       // getSupportLoaderManager().initLoader(1, null, this);
     }
 
     @Override
