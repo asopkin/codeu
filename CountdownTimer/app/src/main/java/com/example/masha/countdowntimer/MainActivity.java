@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity implements
     private static final int RESULT_SETTINGS = 1;
     protected boolean mbActive = true;
     protected ProgressBar mProgressBar;
-    private int TIMER_RUNTIME = 11000;
+    private int TIMER_RUNTIME = 10000;
     private String userName;
     private Boolean progressbar= true;
     boolean resumed = true;
@@ -97,8 +97,9 @@ public class MainActivity extends ActionBarActivity implements
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String timing = sharedPrefs.getString("select_timing", "11000");
         String congratulatory = "seconds: " + timing;
-        Toast toast = Toast.makeText(getApplicationContext(), congratulatory, Toast.LENGTH_LONG);
-        toast.show();
+       // TIMER_RUNTIME = Integer.parseInt(timing);
+      //  Toast toast = Toast.makeText(getApplicationContext(), congratulatory, Toast.LENGTH_LONG);
+       // toast.show();
 
 
 
@@ -323,9 +324,10 @@ public class MainActivity extends ActionBarActivity implements
     }
     @Override
     protected void onPause(){
+        super.onPause();
         mCountDownTimer.pause();
 
-        super.onPause();
+
     //    animation.cancel();
        // progressbar = false;
        // mProgressBar.setProgress(0);
@@ -335,8 +337,9 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     protected void onResume() {
-        mCountDownTimer.resume();
         super.onResume();
+        mCountDownTimer.resume();
+
 
 
       /**  pStatus=0;
@@ -363,8 +366,8 @@ public class MainActivity extends ActionBarActivity implements
             }
         };
         timerThread.start();
-        run();
-        mCountDownTimer.create();**/
+        run();**/
+        mCountDownTimer.create();
 
     }
 
