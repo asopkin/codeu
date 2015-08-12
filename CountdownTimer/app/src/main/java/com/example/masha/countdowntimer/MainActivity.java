@@ -61,6 +61,7 @@ public class MainActivity extends ActionBarActivity implements
     ObjectAnimator animation;
     private SimpleCursorAdapter adapter;
     private int pStatus = 0;
+    private boolean exercises, display, preferences = false;
 
 
 
@@ -97,7 +98,7 @@ public class MainActivity extends ActionBarActivity implements
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String timing = sharedPrefs.getString("select_timing", "11000");
         String congratulatory = "seconds: " + timing;
-       // TIMER_RUNTIME = Integer.parseInt(timing);
+        TIMER_RUNTIME = Integer.parseInt(timing);
       //  Toast toast = Toast.makeText(getApplicationContext(), congratulatory, Toast.LENGTH_LONG);
        // toast.show();
 
@@ -217,6 +218,7 @@ public class MainActivity extends ActionBarActivity implements
         public void onClick(View v) {
             // it was the 1st button
             mCountDownTimer.pause();
+            exercises = true;
             Intent intentMain = new Intent(MainActivity.this ,
                     AddExerciseActivity.class);
             MainActivity.this.startActivity(intentMain);
@@ -227,6 +229,7 @@ public class MainActivity extends ActionBarActivity implements
         public void onClick(View v) {
             // it was the 1st button
            // mCountDownTimer.pause();
+            display = true;
             Intent intentMain = new Intent(MainActivity.this ,
                     DisplayExercises.class);
             MainActivity.this.startActivity(intentMain);
@@ -306,6 +309,7 @@ public class MainActivity extends ActionBarActivity implements
                 Intent i = new Intent(this, MyPreferenceFragment.class);
                 startActivity(i);**/
                 mCountDownTimer.pause();
+                preferences = true;
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, SetPreferenceActivity.class);
                 startActivityForResult(intent, 0);
@@ -338,8 +342,15 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        mCountDownTimer.resume();
-
+        if(exercises || display || preferences) {
+            mCountDownTimer.resume();
+            exercises = false;
+            display = false;
+            preferences = false;
+        }
+        else{
+            mCountDownTimer.create();
+        }
 
 
       /**  pStatus=0;
@@ -367,7 +378,7 @@ public class MainActivity extends ActionBarActivity implements
         };
         timerThread.start();
         run();**/
-        mCountDownTimer.create();
+
 
     }
 
