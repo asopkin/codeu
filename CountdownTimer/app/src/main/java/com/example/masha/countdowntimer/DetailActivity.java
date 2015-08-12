@@ -3,10 +3,14 @@ package com.example.masha.countdowntimer;
 /**
  * Created by asopkin on 8/7/2015.
  */
+
 import android.app.Activity;
-import android.app.Application;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Looper;
+
+import android.os.Handler;
 
 public class DetailActivity extends Activity {
     public static final String EXTRA_URL = "url";
@@ -29,5 +33,13 @@ public class DetailActivity extends Activity {
                     .findFragmentById(R.id.detailFragment);
             detailFragment.setText(url);
         }
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(),
+                        MainActivity.class);
+                startActivity(intent);
+            }
+        }, 2000);
     }
 }

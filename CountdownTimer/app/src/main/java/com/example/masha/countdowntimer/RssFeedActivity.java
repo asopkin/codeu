@@ -6,7 +6,8 @@ package com.example.masha.countdowntimer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.os.Handler;
+import android.os.Looper;
 
 public class RssFeedActivity extends Activity implements
         MyListFragment.OnItemSelectedListener {
@@ -23,6 +24,14 @@ public class RssFeedActivity extends Activity implements
                 .findFragmentById(R.id.detailFragment);
         if (fragment != null && fragment.isInLayout()) {
             fragment.setText(link);
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    Intent intent = new Intent(getApplicationContext(),
+                            MainActivity.class);
+                    startActivity(intent);
+                }
+            }, 2000);
         } else {
             Intent intent = new Intent(getApplicationContext(),
                     DetailActivity.class);
