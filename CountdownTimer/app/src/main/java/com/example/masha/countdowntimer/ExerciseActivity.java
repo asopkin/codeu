@@ -60,7 +60,7 @@ public class ExerciseActivity extends ActionBarActivity implements LoaderManager
         comment = datasource.createComment(comments[nextInt]);**/
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String gimme = sharedPrefs.getString("edittext_preference", "Amanda");
+        String gimme = sharedPrefs.getString("edittext_preference", "Obama");
         String congratulatory = "Keep it up " + gimme;
         Toast toast = Toast.makeText(getApplicationContext(), congratulatory, Toast.LENGTH_LONG);
         toast.show();
