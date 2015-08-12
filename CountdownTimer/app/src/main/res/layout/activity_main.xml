@@ -77,7 +77,7 @@
         android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pauseButton"
+        android:layout_below="@+id/showButton"
         android:layout_alignBaseline="@+id/addButton"
         android:layout_alignBottom="@+id/addButton"
         android:layout_alignParentRight="true"
