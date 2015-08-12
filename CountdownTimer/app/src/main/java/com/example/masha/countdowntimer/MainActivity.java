@@ -225,7 +225,7 @@ public class MainActivity extends ActionBarActivity implements
     View.OnClickListener myhandler2 = new View.OnClickListener() {
         public void onClick(View v) {
             // it was the 1st button
-            mCountDownTimer.pause();
+           // mCountDownTimer.pause();
             Intent intentMain = new Intent(MainActivity.this ,
                     DisplayExercises.class);
             MainActivity.this.startActivity(intentMain);
@@ -324,18 +324,22 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     protected void onPause(){
         mCountDownTimer.pause();
+
         super.onPause();
     //    animation.cancel();
-        progressbar = false;
-        mProgressBar.setProgress(0);
-        mbActive = false;
+       // progressbar = false;
+       // mProgressBar.setProgress(0);
+       // mbActive = false;
 
     }
 
     @Override
     protected void onResume() {
-      super.onResume();
-        pStatus=0;
+        mCountDownTimer.resume();
+        super.onResume();
+
+
+      /**  pStatus=0;
        // mProgressBar.setProgress(pStatus);
        // run();
         Resources res = getResources();
@@ -360,7 +364,8 @@ public class MainActivity extends ActionBarActivity implements
         };
         timerThread.start();
         run();
-        mCountDownTimer.create();
+        mCountDownTimer.create();**/
+
     }
 
     public void onClickAddName(View view) {
